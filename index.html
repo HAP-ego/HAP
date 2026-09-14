@@ -110,13 +110,15 @@
     <section id="dataset" class="section dataset-section">
       <div class="container split-heading">
         <div>
-          <p class="section-kicker">Bottle dataset</p>
+          <p class="section-kicker">EgoPAT3Dv2 + Bottle</p>
           <h2>Goal-directed RGB-D interactions</h2>
         </div>
         <p>
-          Bottle contains 12 recording sequences and 382 reach-to-target clips
-          with coordinated hand motion, viewpoint changes, and changing object
-          visibility. Experiments use a session-disjoint 10/1/1 split.
+          We evaluate HAP on EgoPAT3Dv2 and Bottle. Bottle contains 12 recording
+          sessions and 382 reach-to-target clips with coordinated hand motion,
+          viewpoint changes, and changing target visibility; its experiments use
+          a session-disjoint 10/1/1 split. EgoPAT3Dv2 uses a subject-disjoint
+          773/84/118 train/validation/test split.
         </p>
       </div>
       <div class="container-wide">
@@ -129,9 +131,9 @@
     <section id="results" class="section section-dark">
       <div class="container">
         <div class="section-heading section-heading-light">
-          <p class="section-kicker">Independent test sequence</p>
-          <h2>Head-motion prediction on Bottle</h2>
-          <p>Translation is reported in millimeters and rotation in degrees.</p>
+          <p class="section-kicker">Held-out test sets</p>
+          <h2>Head-motion prediction</h2>
+          <p>Each cell reports EgoPAT3Dv2 / Bottle; translation is in millimeters and rotation in degrees.</p>
         </div>
 
         <div class="table-wrap" role="region" aria-label="Head-motion prediction results" tabindex="0">
@@ -146,20 +148,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>CVH</td><td>26.503</td><td>57.001</td><td>1.877</td><td>3.948</td></tr>
-              <tr><td>UniHand</td><td>59.357</td><td>75.472</td><td>4.128</td><td>5.081</td></tr>
-              <tr><td>DKF</td><td>41.786</td><td>68.952</td><td>3.064</td><td>4.798</td></tr>
-              <tr><td>RVAE</td><td>26.142</td><td>42.434</td><td>1.958</td><td><u>3.089</u></td></tr>
-              <tr><td>DASE</td><td>26.517</td><td>45.093</td><td>1.951</td><td>3.126</td></tr>
-              <tr><td>VRNN</td><td>43.421</td><td>72.611</td><td>3.233</td><td>5.240</td></tr>
-              <tr><td>SRNN</td><td>36.723</td><td>60.308</td><td>2.896</td><td>4.346</td></tr>
-              <tr><td>AGF</td><td>37.286</td><td>60.348</td><td>2.944</td><td>4.677</td></tr>
-              <tr><td>OCT</td><td>34.360</td><td>55.822</td><td>2.796</td><td>4.077</td></tr>
-              <tr><td>USST</td><td>41.142</td><td>60.803</td><td>2.708</td><td>4.208</td></tr>
-              <tr><td>Diff-IP2D</td><td>51.966</td><td>76.261</td><td>3.937</td><td>4.987</td></tr>
-              <tr><td>MADiff</td><td>43.637</td><td>73.384</td><td>3.431</td><td>5.593</td></tr>
-              <tr class="ours"><td>HAP (DA3)</td><td>17.710</td><td>34.421</td><td>1.532</td><td>2.866</td></tr>
-              <tr class="alternate"><td>HAP (ORB-SLAM3)</td><td><u>19.087</u></td><td><u>36.283</u></td><td><u>1.731</u></td><td>3.115</td></tr>
+              <tr><td>CVH</td><td>10.685 / 26.656</td><td>23.600 / 57.321</td><td>2.145 / 1.877</td><td>4.469 / 3.946</td></tr>
+              <tr><td>UniHand</td><td>24.934 / 58.754</td><td>39.603 / 75.685</td><td>4.929 / 3.905</td><td>6.133 / 4.848</td></tr>
+              <tr><td>DKF</td><td>20.934 / 36.351</td><td>38.403 / 60.419</td><td>2.922 / 2.975</td><td>5.037 / 4.643</td></tr>
+              <tr><td>RVAE</td><td>12.597 / 26.088</td><td>24.338 / 42.587</td><td>2.013 / 1.977</td><td>3.683 / 3.125</td></tr>
+              <tr><td>DASE</td><td>15.275 / 25.596</td><td>29.510 / 43.576</td><td>2.094 / 2.067</td><td>3.781 / 3.218</td></tr>
+              <tr><td>VRNN</td><td>22.195 / 38.714</td><td>39.660 / 63.683</td><td>3.105 / 3.077</td><td>5.184 / 4.651</td></tr>
+              <tr><td>SRNN</td><td>20.599 / 36.423</td><td>39.028 / 60.075</td><td>3.139 / 3.210</td><td>5.200 / 4.727</td></tr>
+              <tr><td>AGF</td><td>19.012 / 40.821</td><td>33.933 / 65.973</td><td>2.615 / 3.094</td><td>4.540 / 4.914</td></tr>
+              <tr><td>OCT</td><td>14.764 / 35.858</td><td>27.462 / 57.169</td><td>2.386 / 2.491</td><td>4.053 / 3.876</td></tr>
+              <tr><td>USST</td><td>19.665 / 40.233</td><td>33.319 / 61.688</td><td>3.023 / 3.117</td><td>4.918 / 4.625</td></tr>
+              <tr><td>Diff-IP2D</td><td>28.515 / 53.849</td><td>44.141 / 76.828</td><td>4.778 / 3.883</td><td>6.159 / 4.926</td></tr>
+              <tr><td>MADiff</td><td>24.601 / 38.292</td><td>44.312 / 63.509</td><td>3.774 / 3.048</td><td>6.190 / 5.020</td></tr>
+              <tr class="ours"><td>HAP (DA3)</td><td><strong>10.563 / 18.563</strong></td><td><strong>22.251 / 36.619</strong></td><td>2.091 / <strong>1.495</strong></td><td>4.123 / <strong>2.760</strong></td></tr>
+              <tr class="alternate"><td>HAP (ORB-SLAM3)</td><td><strong>8.897</strong> / 19.087</td><td><strong>18.098</strong> / 36.283</td><td><strong>1.538</strong> / 1.731</td><td><strong>3.178</strong> / 3.115</td></tr>
             </tbody>
           </table>
         </div>
@@ -167,8 +169,16 @@
         <div class="result-summary">
           <p class="result-value">32.3%</p>
           <p>
-            lower tADE than the strongest non-HAP method. HAP also achieves the
-            lowest tFDE, rADE, and rFDE under the shared evaluation protocol.
+            HAP achieves the strongest overall results among the evaluated methods.
+            EgoPAT3Dv2 has substantially lower translational errors, while Bottle
+            tests prediction under frequent, evolving target occlusion.
+          </p>
+          <p>
+            The fixed target-intention estimator reaches 92.79% top-1 accuracy
+            (206/222) on the curated EgoPAT3Dv2 validation split. On Bottle,
+            Full HAP reports 18.563 / 36.619 mm tADE/tFDE and 1.495 / 2.760 deg
+            rADE/rFDE; the horizon-wise gate improves both motion-only and
+            P-TAOG-conditioned predictors.
           </p>
         </div>
       </div>
