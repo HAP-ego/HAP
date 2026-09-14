@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HAP predicts future 6-DoF human head motion from observed hand motion, target intention, and dynamic occlusion topology.">
+  <meta name="theme-color" content="#111827">
+  <title>HAP | Egocentric Head Motion Prediction</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero" id="top">
+    <video class="hero-media" autoplay muted loop playsinline preload="auto" poster="media/images/demo_reach_01.jpg" aria-hidden="true">
+      <source src="media/videos/demo_reach_01.mp4" type="video/mp4">
+    </video>
+    <div class="hero-shade" aria-hidden="true"></div>
+
+    <nav class="nav container" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="HAP home">HAP</a>
+      <div class="nav-links">
+        <a href="#method">Method</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#results">Results</a>
+        <a href="#visualizations">Visualizations</a>
+      </div>
+    </nav>
+
+    <div class="container hero-inner">
+      <p class="eyebrow">Egocentric head motion prediction</p>
+      <h1>HAP</h1>
+      <p class="hero-title">A Hand-Driven Active Perception Framework</p>
+      <p class="subtitle">
+        Anticipating future human head motion from hand dynamics, interaction
+        intent, and target-conditioned occlusion.
+      </p>
+      <p class="authors">
+        Anonymous
+      </p>
+      <div class="actions">
+        <a class="button button-primary" href="https://github.com/HAP-ego/HAP">View code</a>
+        <a class="button button-secondary" href="https://github.com/HAP-ego/HAP#readme">Documentation</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="abstract" class="section intro-section">
+      <div class="container intro-grid">
+        <div>
+          <p class="section-kicker">Motivation</p>
+          <h2>Head motion is part of perception.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            During manipulation, the head redirects perception toward an
+            interaction target while remaining coordinated with upper-body and
+            hand motion. Treating future head motion as passive trajectory
+            continuation misses both effects.
+          </p>
+          <p>
+            HAP predicts future 6-DoF human head motion from an observed
+            interaction history. It infers target confidence from hand motion
+            and object geometry, reasons over dynamic target-conditioned
+            occlusion, and combines learned motion with a constant-velocity
+            prior at each prediction horizon.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section section-light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Method</p>
+          <h2>From hand-driven intent to future head motion</h2>
+          <p>
+            HAP connects target inference, dynamic occlusion reasoning, and
+            motion prediction in a single target-conditioned forecasting pipeline.
+          </p>
+        </div>
+
+        <figure class="paper-figure framework-figure">
+          <img src="assets/hap_method_framework.png" alt="Overview of the HAP framework, from RGB-D observations and hand motion to target confidence, dynamic P-TAOG encoding, and future head motion prediction.">
+          <figcaption>
+            HAP estimates target confidence, constructs a dynamic P-TAOG, and
+            fuses its temporal representation with observed hand-head motion.
+          </figcaption>
+        </figure>
+
+        <div class="method-steps" aria-label="HAP method components">
+          <article>
+            <span class="step-index">01</span>
+            <h3>Target intention</h3>
+            <p>Observed 5D hand states and 8D hand-object geometry produce soft target probabilities over candidate objects.</p>
+          </article>
+          <article>
+            <span class="step-index">02</span>
+            <h3>Dynamic P-TAOG</h3>
+            <p>A Predictive Target-centric Amodal Occlusion Graph represents current occlusion and potential risk among candidates.</p>
+          </article>
+          <article>
+            <span class="step-index">03</span>
+            <h3>Gated prediction</h3>
+            <p>Directed PNA layers and a causal GRU encode graph evolution before a horizon-wise gate blends learned and constant-velocity trajectories.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="dataset" class="section dataset-section">
+      <div class="container split-heading">
+        <div>
+          <p class="section-kicker">Bottle dataset</p>
+          <h2>Goal-directed RGB-D interactions</h2>
+        </div>
+        <p>
+          Bottle contains 12 recording sequences and 382 reach-to-target clips
+          with coordinated hand motion, viewpoint changes, and changing object
+          visibility. Experiments use a session-disjoint 10/1/1 split.
+        </p>
+      </div>
+      <div class="container-wide">
+        <figure class="paper-figure dataset-figure">
+          <img src="assets/bottle_dataset.png" alt="Bottle dataset examples showing reach-to-target phases, synchronized RGB-D observations, and recording diversity.">
+        </figure>
+      </div>
+    </section>
+
+    <section id="results" class="section section-dark">
+      <div class="container">
+        <div class="section-heading section-heading-light">
+          <p class="section-kicker">Independent test sequence</p>
+          <h2>Head-motion prediction on Bottle</h2>
+          <p>Translation is reported in millimeters and rotation in degrees.</p>
+        </div>
+
+        <div class="table-wrap" role="region" aria-label="Head-motion prediction results" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Method</th>
+                <th scope="col">tADE &#8595;</th>
+                <th scope="col">tFDE &#8595;</th>
+                <th scope="col">rADE &#8595;</th>
+                <th scope="col">rFDE &#8595;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>CVH</td><td>26.503</td><td>57.001</td><td>1.877</td><td>3.948</td></tr>
+              <tr><td>UniHand</td><td>59.357</td><td>75.472</td><td>4.128</td><td>5.081</td></tr>
+              <tr><td>DKF</td><td>41.786</td><td>68.952</td><td>3.064</td><td>4.798</td></tr>
+              <tr><td>RVAE</td><td>26.142</td><td>42.434</td><td>1.958</td><td><u>3.089</u></td></tr>
+              <tr><td>DASE</td><td>26.517</td><td>45.093</td><td>1.951</td><td>3.126</td></tr>
+              <tr><td>VRNN</td><td>43.421</td><td>72.611</td><td>3.233</td><td>5.240</td></tr>
+              <tr><td>SRNN</td><td>36.723</td><td>60.308</td><td>2.896</td><td>4.346</td></tr>
+              <tr><td>AGF</td><td>37.286</td><td>60.348</td><td>2.944</td><td>4.677</td></tr>
+              <tr><td>OCT</td><td>34.360</td><td>55.822</td><td>2.796</td><td>4.077</td></tr>
+              <tr><td>USST</td><td>41.142</td><td>60.803</td><td>2.708</td><td>4.208</td></tr>
+              <tr><td>Diff-IP2D</td><td>51.966</td><td>76.261</td><td>3.937</td><td>4.987</td></tr>
+              <tr><td>MADiff</td><td>43.637</td><td>73.384</td><td>3.431</td><td>5.593</td></tr>
+              <tr class="ours"><td>HAP (DA3)</td><td>17.710</td><td>34.421</td><td>1.532</td><td>2.866</td></tr>
+              <tr class="alternate"><td>HAP (ORB-SLAM3)</td><td><u>19.087</u></td><td><u>36.283</u></td><td><u>1.731</u></td><td>3.115</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="result-summary">
+          <p class="result-value">32.3%</p>
+          <p>
+            lower tADE than the strongest non-HAP method. HAP also achieves the
+            lowest tFDE, rADE, and rFDE under the shared evaluation protocol.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="qualitative" class="section section-light">
+      <div class="container">
+        <div class="split-heading">
+          <div>
+            <p class="section-kicker">Qualitative comparison</p>
+            <h2>Following future direction and magnitude</h2>
+          </div>
+          <p>
+            Across independent test clips, target-conditioned context helps HAP
+            reduce endpoint drift and better match changes in future head motion.
+          </p>
+        </div>
+        <figure class="paper-figure qualitative-figure">
+          <img src="assets/qualitative_predictions.png" alt="Qualitative 3D trajectory predictions from HAP, UniHand, MADiff, CVH, and RVAE across eight test clips.">
+        </figure>
+      </div>
+    </section>
+
+    <section id="visualizations" class="section visuals-section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Visualizations</p>
+          <h2>Egocentric reach-to-target sequences</h2>
+          <p>Short observations from the Bottle interaction set.</p>
+        </div>
+        <div class="video-grid">
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_01.jpg"><source src="media/videos/demo_reach_01.mp4" type="video/mp4"></video><figcaption>Sequence 01</figcaption></figure>
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_02.jpg"><source src="media/videos/demo_reach_02.mp4" type="video/mp4"></video><figcaption>Sequence 02</figcaption></figure>
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_03.jpg"><source src="media/videos/demo_reach_03.mp4" type="video/mp4"></video><figcaption>Sequence 03</figcaption></figure>
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_04.jpg"><source src="media/videos/demo_reach_04.mp4" type="video/mp4"></video><figcaption>Sequence 04</figcaption></figure>
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_05.jpg"><source src="media/videos/demo_reach_05.mp4" type="video/mp4"></video><figcaption>Sequence 05</figcaption></figure>
+          <figure><video autoplay muted loop playsinline preload="metadata" poster="media/images/demo_reach_06.jpg"><source src="media/videos/demo_reach_06.mp4" type="video/mp4"></video><figcaption>Sequence 06</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex" class="section citation-section">
+      <div class="container citation-grid">
+        <div>
+          <p class="section-kicker">Citation</p>
+          <h2>BibTeX</h2>
+        </div>
+        <pre><code>@misc{anonymous2026hap,
+  title  = {HAP: A Hand-Driven Active Perception Framework for
+            Egocentric Head Motion Prediction},
+  author = {Anonymous},
+  year   = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p><strong>HAP</strong> &middot; Hand-Driven Active Perception</p>
+      <p>Anonymous submission</p>
+    </div>
+  </footer>
+</body>
+</html>
