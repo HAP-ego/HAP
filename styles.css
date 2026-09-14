@@ -419,6 +419,11 @@ tbody tr:last-child td {
   color: #c8cfda;
 }
 
+.result-summary > p:not(.result-value) {
+  grid-column: 2;
+  max-width: 620px;
+}
+
 .qualitative-figure {
   padding: 10px;
   border: 1px solid var(--line);
@@ -591,6 +596,10 @@ pre {
   .result-summary {
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+
+  .result-summary > p:not(.result-value) {
+    grid-column: 1;
   }
 
   .result-value {
